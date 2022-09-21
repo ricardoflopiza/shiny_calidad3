@@ -1,0 +1,13 @@
+name: calidad
+title: calidad
+username:
+account: quantus
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 7070296
+bundleId: 6323661
+url: https://quantus.shinyapps.io/calidad/
+when: 1663764640.9097
+lastSyncTime: 1663764640.90971
+asMultiple: FALSE
+asStatic: FALSE
