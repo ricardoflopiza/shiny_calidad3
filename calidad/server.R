@@ -41,6 +41,7 @@ library(shinyalert)
 library(shinybusy)
 library(stringr)
 library(survey)
+library(shinyBS)
 
 source("ui_utils.R")
 source("create_plot.R",)
@@ -192,42 +193,44 @@ shinyServer(function(input, output, session) {
 
   var_select_estrat <- reactive({names(datos())[grep(paste0("^",estratos,"$",collapse = "|"),names(datos()))]})
 
-  observeEvent(list(datos(),
-                    input$Id004,
-                    input$base_web_ine),{
-    shinyWidgets::updatePickerInput(session, "varINTERES",
-                      choices = variables_int(),
-                      selected = "" )})
-
-  observeEvent(list(any(is.null(datos()),input$tipoCALCULO == "Proporción"),
-               input$Id004,
-               input$base_web_ine),{
-    shinyWidgets::updatePickerInput(session, "varDENOM",
-                      choices = variables_int())
-  })
-
-  observeEvent(list(datos(),
-                    input$Id004,
-                    input$base_web_ine),{
-    shinyWidgets::updatePickerInput(session, "varCRUCE",
-                      choices = c(variables_int())
-                      )
-    })
-
   ### update inputs ####
 
   observeEvent(list(datos(),
                     input$Id004,
                     input$base_web_ine),{
-    shinyWidgets::updatePickerInput(session, "varSUBPOB",
-                      choices = c(variables_int()),
-                      selected = "" )
+    updateSelectizeInput(session, "varINTERES",
+                      choices = c("",variables_int())
+          )
+})
+
+  observeEvent(list(any(is.null(datos()),input$tipoCALCULO == "Proporción"),
+               input$Id004,
+               input$base_web_ine),{
+    updateSelectizeInput(session, "varDENOM",
+                      choices = c("",variables_int())
+                 )
+  })
+
+  observeEvent(list(datos(),
+                    input$Id004,
+                    input$base_web_ine),{
+    updateSelectizeInput(session, "varCRUCE",
+                      choices = c("",variables_int())
+                      )
+    })
+
+
+  observeEvent(list(datos(),
+                    input$Id004,
+                    input$base_web_ine),{
+    updateSelectizeInput(session, "varSUBPOB",
+                      choices = c("",variables_int()))
                     })
 
   observeEvent(list(datos(),
                     input$Id004,
                     input$base_web_ine),{
-    shinyWidgets::updatePickerInput(session, "varFACT1",
+    updateSelectizeInput(session, "varFACT1",
                       choices = variables_int(),
                       selected = var_selec_fact()
     )})
@@ -235,14 +238,14 @@ shinyServer(function(input, output, session) {
   observeEvent(list(datos(),
                     input$Id004,
                     input$base_web_ine),{
-    shinyWidgets::updatePickerInput(session, "varCONGLOM",
+    updateSelectizeInput(session, "varCONGLOM",
                       choices = variables_int(),
                       selected = var_select_conglom()
     )})
   observeEvent(list(datos(),
                     input$Id004,
                     input$base_web_ine),{
-    shinyWidgets::updatePickerInput(session, "varESTRATOS",
+    updateSelectizeInput(session, "varESTRATOS",
                       choices = variables_int(),
                       selected = var_select_estrat()
     )})
@@ -373,9 +376,9 @@ observeEvent(input$actionTAB,{
 
   })
 
-  observeEvent(input$reset,{
-  print(input$reset)
-  })
+  # observeEvent(input$reset,{
+  # print(input$reset)
+  # })
 
 ### reset main panel ####
   # observeEvent(input$reset,{
@@ -383,21 +386,20 @@ observeEvent(input$actionTAB,{
   #   shinyalert("Precaución", "¿Desea eliminar el tabulado?", type = "warning",showConfirmButton = T,showCancelButton = T)
   # })
 
- observeEvent(input$confirm_reset,{
+   observeEvent(input$confirm_reset,{
 
-   output$tituloTAB <- renderUI({
+    output$tituloTAB <- renderUI({
 
-   })
+    })
+    removeModal()
+  })
 
-   removeModal()
- })
-
-
-  ### anulamos el render UI en caso de cambiar selección
+### anulamos el render UI en caso de cambiar selección
   observeEvent(list(input$Id004,
-                    input$base_web_ine),{
+                    input$base_web_ine,
+                    input$varINTERES),{
 
-        req(!warning_resum())
+                      #req(warning_resum())
                       # print(paste("opciones:",input$Id004))
 
                       output$tituloTAB <- renderUI({

@@ -14,7 +14,8 @@ renderUI_origen_datos <- function(req){
 
   }else if(req == "Cargar datos propios"){
       ## input de archivo local -----
-      fileInput(inputId = "file", label = HTML("<h4>Carga una base de datos desde tu computador</h4> <h6>El peso máximo aceptado es 400mb</h6>"),
+      fileInput(inputId = "file", label = HTML("<h4>Carga una base de datos desde tu computador</h4> <h6>- El peso máximo aceptado es <strong>400 mb</strong> <br>
+                                               - Los archivos <strong>.csv</strong> deben estar separados por comas</h6>"),
                 buttonLabel = "Buscar" , placeholder = ".sav .rds .dta .sas .xlsx .csv .feather")
   }
 }
@@ -32,35 +33,49 @@ modal_indicadores <- function(){
 
 <strong><h4>Insumos a evaluar:</h4></strong>
 
-<h5><strong>Estandar INE Chile</strong></h5>
+<h5><strong>Ambos estándares</strong></h5>
 
-<h5><strong>es:</strong> Error Estandar.        <br>
-<strong>cv:</strong> Coeficiente de Variación.       <br>
-<strong>df:</strong> Grados de Libertad.        <br>
-<strong>n:</strong> Casos muestrales.     </h5>     <br>
+<h5><strong>se:</strong> error estandar        <br>
+<strong>df:</strong> grados de libertad        <br>
+<strong>n:</strong> casos muestrales           <br>
+<strong>cv:</strong> coeficiente de variación  </h5><br>
 
 <h5><strong>Estandar CEPAL</strong></h5>
 
-<h5><strong>deff:</strong> Efecto diseño <br>
-<strong>ess:</strong> Tamaño de muestra efectiva <br>
-<strong>unweighted:</strong> Conteo no ponderado </h5> <br>
+<h5><strong>deff:</strong> efecto diseño <br>
+<strong>unweighted:</strong> conteo de casos no ponderado <br>
+<strong>log_cv:</strong> coeficiente de variación logarítmico <br>
+<strong>ess:</strong> tamaño de muestra efectiva <br>
+</h5> <br>
+
 
 <strong><h4>Resultados de la evaluación: </h4></strong>   \n
 
 <h5><strong>Estandar INE Chile</strong></h5>
 
-<h5><strong>eval_n:</strong> Evaluación de casos muestrales        <br>
-<strong>eval_df:</strong> Evaluación de grados de libertad.        <br>
-<strong>eval_cv:</strong> Evaluación del Coeficiente de variación.        <br>
-<strong>calidad:</strong> Evaluación final de la celda, puede ser: <p style=\"font-style: italic;\"> Fiable, Poco Fiable o No fiable </p> </h5><br>
+<h5><strong>eval_n:</strong> evaluación de casos muestrales        <br>
+<strong>eval_df:</strong> evaluación de grados de libertad        <br>
+<strong>eval_cv:</strong> evaluación del coeficiente de variación        <br>
+<strong>calidad:</strong> evaluación final de la celda, puede ser: <p style=\"font-style: italic;\"> Fiable, Poco Fiable o No fiable </p> </h5><br>
+
+<h5><strong>Estandar INE Chile solo en la evaluación de proporciones</strong></h5>
+
+<h5><strong>prop_est:</strong> se refiere si la proporción evaluada es mayor o menor a 0.5, esto determina si se evalua por <strong>se</strong> o por <strong>cv</strong>   <br>
+<strong>tipo_eval:</strong> 'Eval SE' o 'Eval CV', la proporción es evaluada por <strong>se</strong> o por <strong>cv</strong> <br>
+<strong>cuadrativa:</strong> valor devuelto por la función cuadrática        <br>
+ <strong>eval_se:</strong> evaluación del <strong>se</strong> <br> </h5><br>
+
 
 <h5><strong>Estandar CEPAL</strong></h5>
 
-<h5><strong>eval_n:</strong> Evaluación de casos muestrales <br>
-<strong>eval_ess:</strong> Evaluación tamaño de muestra efectivo <br>
-<strong>eval_df:</strong> Evaluación grados de libertad <br>
-<strong>eval_cv:</strong> Evaluación del Coeficiente de variación. <br>
-<strong>calidad:</strong> Evaluación final de la celda, puede ser: <p style=\"font-style: italic;\"> Publicar, Revisar o Suprimir </p> </h5>"
+<h5><strong>eval_n:</strong> evaluación de casos muestrales <br>
+<strong>eval_ess:</strong> evaluación tamaño de muestra efectivo <br>
+<strong>eval_df:</strong> evaluación grados de libertad <br>
+<strong>eval_cv:</strong> evaluación del Coeficiente de variación. <br>
+<strong>eval_unweighted: </strong> evaluación del conteo de casos no ponderado <br>
+<strong>eval_log_cv: </strong> evaluación del coeficiente de variación logarítmico <br>
+
+<strong>calidad:</strong> evaluación final de la celda, puede ser: <p style=\"font-style: italic;\"> Publicar, Revisar o Suprimir </p> </h5>"
     ), easyClose = T, footer = actionButton(inputId = "cerrar_modal", "Cerrar"),
   ))
 }
@@ -69,7 +84,7 @@ modal_estandar <- function(){
 
   showModal(
     modalDialog(
-    title = "¿Qué es un estándar de calidad?",
+    title = "Esquemas de evaluación de calidad",
     HTML("<h5 style='text-align: justify;'>Este aplicativo implementa los estándares de calidad del <strong>Instituto Nacional de Estadísticas de Chile</strong> y de  <strong>CEPAL</strong>.
          Ambos tienen el objetivo de evaluar la calidad de las estimaciones provenientes de encuestas de hogares y ambos utilizan una
          clasificación basada en tres categorías de fiabilidad. La principal diferencia guarda
@@ -80,8 +95,8 @@ modal_estandar <- function(){
          de muestra efectivo y el coeficiente de variación logarítmico.</h5>
 
 <em><h6>Para conocer mas de estos estándares puede revisar los documentos en los siguientes links:</h6></em>
-<a href= 'https://www.ine.cl/docs/default-source/buenas-practicas/estandares/estandar/documento/estandar-evaluacion-de-calidad-de-estimaciones.pdf'>INE Chile</a> y
-<a href= 'https://www.cepal.org/es/publicaciones/45681-criterios-calidad-la-estimacion-indicadores-partir-encuestas-hogares-aplicacion'>CEPAL</a>
+<a href= 'https://www.ine.cl/docs/default-source/buenas-practicas/estandares/estandar/documento/estandar-evaluacion-de-calidad-de-estimaciones.pdf' target='_blank'>INE Chile</a> y
+<a href= 'https://www.cepal.org/es/publicaciones/45681-criterios-calidad-la-estimacion-indicadores-partir-encuestas-hogares-aplicacion'  target='_blank'>CEPAL</a>
 <br>"),
     easyClose = TRUE,
     footer = NULL
@@ -140,7 +155,6 @@ tagList(
   )
 
 }
-
 
 
 

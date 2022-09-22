@@ -2,7 +2,6 @@
 
 create_tabulado = function(base, v_interes, v_cruce,  v_subpob, v_fexp1, v_conglom, v_estratos, tipoCALCULO, ci, ajuste_ene,etiquetas=FALSE,denominador,scheme,server = T){
 
-
   # if(v_cruce[1] == "" & !is.null(v_cruce)){
   #   v_cruce <- NULL
   # }
