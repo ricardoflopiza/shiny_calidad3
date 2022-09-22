@@ -55,6 +55,10 @@ create_tabulado = function(base, v_interes, v_cruce,  v_subpob, v_fexp1, v_congl
     log_cv= FALSE
   }
 
+## condicional si es un cálculo por proporciones ####
+
+
+
   if(tipoCALCULO == "Proporción"){
     if(!is.null(denominador)){
 
@@ -76,7 +80,11 @@ create_tabulado = function(base, v_interes, v_cruce,  v_subpob, v_fexp1, v_congl
                                     scheme = scheme,publish = T)
     }
 
+ # }else if(tipoCALCULO == "Conteo casos" & ){
+
+
   }else{
+
     evaluados = calidad::evaluate(funciones_cal[[num]](var = v_interes,
                                                        design = dc,
                                                        domains = v_cruce_string,
@@ -84,6 +92,8 @@ create_tabulado = function(base, v_interes, v_cruce,  v_subpob, v_fexp1, v_congl
                                                        eclac_input = eclac_input),
                                   scheme = scheme,publish = T)
   }
+
+  # corregimos la variable calidad dependiendo si es CEPAL o INE
 
   if(scheme == "cepal"){
     evaluados <- evaluados %>%

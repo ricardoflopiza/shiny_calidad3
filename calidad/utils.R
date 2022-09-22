@@ -125,3 +125,36 @@ tabla_html_shiny <- function(tabla,input) {
 
   return(d)
 }
+
+
+dumming_by_labels <- function(dc,var,domains = NULL ,exclud_lab = NULL){
+
+  data <- dc$variables
+  #plan0 = as.data.frame(matrix(NA,0,7))
+  #names(plan0) <-c("N°","Cuadro","Desagregación","Nombre.variable","Factor.de.expansión","filtro","detalle")
+
+  etiquetas <- unique(data[[var]])[!unique(data[[var]]) %in% exclud_lab]
+
+  nombres_vars <-map_chr(etiquetas, ~ paste0(var,"_",.x,"_DUM"))
+
+  dc$variables<- bind_cols(data,map(etiquetas, function(x){
+
+    nomvar <- paste0(var,"_",x,"_DUM")
+
+    data %>%
+      mutate(!!nomvar := ifelse(!!rlang::parse_expr(var) == x,1,0)) %>%
+      select(all_of(nomvar))
+
+    #ifelse(data[[var]] == x,1,0)
+    # print(nomvar)
+  }
+  ))
+
+  map2_df(nombres_vars,etiquetas,~ evaluate(create_size(var = .x,domains = domains,design = dc)) %>%
+            mutate(!!var := .y) %>% select(!!var,everything())
+  )
+}
+
+is_categoric <- function(data,var){
+  length(unique(data[[var]]))
+}

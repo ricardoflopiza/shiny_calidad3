@@ -460,41 +460,85 @@ observeEvent(input$actionTAB,{
   # choices = list("Media","Proporción","Suma variable Continua","Conteo casos", "Mediana")
 
   #### warning alert var interes ####
+
+  print(input$varINTERES != "" && input$tipoCALCULO %in% c("Media","Suma variable Continua"))
+
+
   wrn_var_int <- reactive({
 
-    if(show_wrn == F){
+   # req(show_wrn == T)
 
-      even = FALSE
+    var <- input$varINTERES
 
-    }else{
+    print(input$varINTERES != "" && input$tipoCALCULO %in% c("Media","Suma variable Continua"))
 
-      var <- input$varINTERES
-      even <- FALSE
+    #   even <- FALSE
+    if(input$varINTERES != input$varINTERES && input$tipoCALCULO %in% c("Media","Suma variable Continua")){
+    ### checkeamos que la variable sea continua
+      es_prop <- datos() %>%
+        dplyr::mutate(es_prop_var = dplyr::if_else(!!rlang::parse_expr(var) == 1 | !!rlang::parse_expr(var) == 0 | is.na(!!rlang::parse_expr(var)),1,0))
 
-      if(var != "") {
+      even <- sum(es_prop$es_prop_var) == nrow(es_prop)
 
-        if(input$tipoCALCULO %in% c("Media","Suma variable Continua")) {
-          es_prop <- datos() %>%
-            dplyr::mutate(es_prop_var = dplyr::if_else(!!rlang::parse_expr(var) == 1 | !!rlang::parse_expr(var) == 0 | is.na(!!rlang::parse_expr(var)),1,0))
+      print(even)
 
-          even <- sum(es_prop$es_prop_var) == nrow(es_prop)
-          shinyFeedback::feedbackWarning("varINTERES", even, "¡La variable no es continua!")
+      shinyFeedback::feedbackWarning("varINTERES", even, "¡La variable no es continua!")
+}
+     # even
 
-          even
+    })
 
-        }else if(input$tipoCALCULO %in% c("Proporción","Conteo casos")){
 
-          es_prop <- datos() %>%
-            dplyr::mutate(es_prop_var = dplyr::if_else(!!rlang::parse_expr(var) == 1 | !!rlang::parse_expr(var) == 0 | is.na(!!rlang::parse_expr(var)),1,0))
+  # wrn_var_int <- eventReactive(input$varINTERES,{
+  #
+  #   req(show_wrn == F)
+  #
+  #     var <- input$varINTERES
+  #     even <- FALSE
+  #
+  #       if(input$tipoCALCULO %in% c("Media","Suma variable Continua")) {
+  #         es_prop <- datos() %>%
+  #           dplyr::mutate(es_prop_var = dplyr::if_else(!!rlang::parse_expr(var) == 1 | !!rlang::parse_expr(var) == 0 | is.na(!!rlang::parse_expr(var)),1,0))
+  #
+  #         even <- sum(es_prop$es_prop_var) == nrow(es_prop)
+  #         shinyFeedback::feedbackWarning("varINTERES", even, "¡La variable no es continua!")
+  #
+  #         even
+  #
+  #       }else if(input$tipoCALCULO %in% c("Proporción","Conteo casos")){
+  #
+  #         es_prop <- datos() %>%
+  #           dplyr::mutate(es_prop_var = dplyr::if_else(!!rlang::parse_expr(var) == 1 | !!rlang::parse_expr(var) == 0 | is.na(!!rlang::parse_expr(var)),1,0))
+  #
+  #         even <- sum(es_prop$es_prop_var) != nrow(es_prop)
+  #         shinyFeedback::feedbackWarning("varINTERES", even, "¡La variable no es de proporcion!")
+  #
+  #         even
+  #
+  #       }else{even}
+  #
+  # })
 
-          even <- sum(es_prop$es_prop_var) != nrow(es_prop)
-          shinyFeedback::feedbackWarning("varINTERES", even, "¡La variable no es de proporcion!")
-
-          even
-        }
-      }else{even}
-    }
-  })
+  #### warning alert var cruce ####
+  # wrn_var_cruce <- reactive({
+  #
+  #   if(show_wrn == F){
+  #
+  #     even = FALSE
+  #
+  #   }else{
+  #
+  #     var <- input$varCRUCE
+  #     even <- FALSE
+  #
+  #     if(var != "") {
+  #
+  #         even <- is_categoric(datos(),var) > 20
+  #         shinyFeedback::feedbackWarning("varCRUCE", even, "¡La variable tiene mas de 20 categorías!")
+  #
+  #     }else{even}
+  #   }
+  # })
 
   ### warning alert var denom ####
 
