@@ -5,9 +5,9 @@ account: quantus
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 7070296
-bundleId: 6325898
+bundleId: 6368047
 url: https://quantus.shinyapps.io/calidad/
-when: 1663807831.42493
-lastSyncTime: 1663807831.42493
+when: 1664896017.6916
+lastSyncTime: 1664896017.69161
 asMultiple: FALSE
 asStatic: FALSE

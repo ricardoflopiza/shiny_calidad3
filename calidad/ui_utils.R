@@ -1,7 +1,7 @@
 
 renderUI_origen_datos <- function(req){
 
-  if(req == "Trabajar con datos INE"){
+  if(req == "Bases INE"){
 
     tagList(
       ## input archivo página del INE
@@ -12,7 +12,7 @@ renderUI_origen_datos <- function(req){
       actionButton("base_ine", label = "Cargar base desde el INE")
     )
 
-  }else if(req == "Cargar datos propios"){
+  }else if(req == "Base externa"){
       ## input de archivo local -----
       fileInput(inputId = "file", label = HTML("<h4>Carga una base de datos desde tu computador</h4> <h6>- El peso máximo aceptado es <strong>400 mb</strong> <br>
                                                - Los archivos <strong>.csv</strong> deben estar separados por comas</h6>"),

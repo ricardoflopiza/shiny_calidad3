@@ -2,30 +2,8 @@
 # UI ----
 library(shiny)
 
-checkShinyOutput <- function(){
-  tryCatch({
-    parsed <- getParseData(parse(file = rstudioapi::getSourceEditorContext()$path))
-    shinyOutput <- parsed[parsed$token=='SYMBOL_FUNCTION_CALL'& grepl("^[a-z]+[A-z]+Output$",parsed$text),]
-    shinyOutput <- merge(shinyOutput,parsed,by='line1')
-    shinyOutput <- shinyOutput[shinyOutput$token.y == "STR_CONST",]
-    warn <- table(shinyOutput$text.y)
-    warn <- warn[warn>=2]
-    warnname <- names(warn)
-    if (length(warn>1)) {
-      warning(mapply(function(warn,nb){paste("Output",warn,"is used",nb,"times")},warnname,warn))
-    }
-  },
-  error = function(){},
-  warning = function(cond) {
-    message("Shiny UI : check following warnings to avoid unexpected UI behaviour")
-    message(cond)
-  }
-  )
-}
 
-
-
-shinyUI(shiny::fluidPage(shinyFeedback::useShinyFeedback(),
+shinyUI(shiny::div(shinyFeedback::useShinyFeedback(),
           shinyjs::useShinyjs(),
           # tags$head(
           #   tags$link(rel = "stylesheet", type = "text/css", href = "maqueta.css")
@@ -36,10 +14,11 @@ shinyUI(shiny::fluidPage(shinyFeedback::useShinyFeedback(),
               shiny::fluidPage(
                 shiny::div(class="container",
                     shiny::HTML('<div class="menu-ine">
-                <img class="logo-ine" src="ine_blanco.svg" alt="INE">
-            </div>
+                <a href="https://www.ine.cl" target="_blank" title="Ir al Instituto Nacional de Estadísticas">
+                    <img class="logo-ine" src="ine_blanco.svg" alt="INE">
+                </a>            </div>
             <div class="pull-right">
-                <a class="btn btn-xs btn-primary" href="https://www.ine.cl" target="_blank">Volver al home INE</a>
+                   <h3 class="ti-top-ine">Evaluación de Calidad de Estimaciones en Encuestas de Hogares</h3>
             </div>'),
                 )
               )
@@ -50,13 +29,49 @@ shinyUI(shiny::fluidPage(shinyFeedback::useShinyFeedback(),
               shiny::fluidPage(
                 #   shiny::div(class="container-fluid",
                 shiny::div(class="container",
-                    shiny::HTML('<div class="row">
-                <div class="col-md-12">
-                    <h4 class="titu-ine">Evaluación de Calidad de Estimaciones en Encuestas de Hogares</h4>
-                    <p class="text-ine">
-Esta aplicación permite acercar a las personas usuarias la implementación del estándar de calidad para la evaluación de estimaciones en encuestas de hogares del INE. A través de ella, las personas usuarias pueden conocer la precisión que tienen las estimaciones generadas a partir de encuestas producidas por el INE u otras encuestas que utilicen muestreo probabilístico estratificado y en 2 etapas. Con esto se busca poner a disposición de la comunidad una herramienta interactiva para la cual no se requiere contar con conocimientos de programación, promoviendo el uso adecuado de la información publicada. Esta aplicación permite evaluar la calidad de la estimación de medias, totales y proporciones.                    </p>
+                    shiny::HTML('<div class="row info-aplicativo">
+                <div class="col-md-3">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">¿Qué es y a quién aplica?</a></li>
+                        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Uso del Aplicativo</a></li>
+                    </ul>
                 </div>
-            </div>')
+                <div class="col-md-9">
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home">
+                            <h4 class="titu-ine">¿Qué es y a quién aplica?</h4>
+                            <p>
+                                Esta aplicación permite acercar a las personas usuarias la implementación del estándar de calidad para la evaluación
+                                de estimaciones en encuestas de hogares del INE. A través de ella, las personas usuarias pueden conocer la precisión
+                                que tienen las estimaciones generadas a partir de encuestas producidas por el INE u otras encuestas que utilicen
+                                muestreo probabilístico estratificado y en 2 etapas. Con esto se busca poner a disposición de la comunidad una
+                                herramienta interactiva para la cual no se requiere contar con conocimientos de programación, promoviendo el uso
+                                adecuado de la información publicada. Esta aplicación permite evaluar la calidad de la estimación de medias, totales
+                                y proporciones.<br><br>
+                            </p>
+                            <div class="alert alert-info" style="margin:0;" role="alert">
+                                <small>
+                                <img width="50" class="info" src="icon-info.svg" alt="icono-información">
+                                Para un uso adecuado de esta herramienta se recomienda que la persona usuaria conozca las bases de datos que está
+                                utilizando y sus libros de código, así como también se espera un conocimiento mínimo sobre diseños estadísticos complejos.
+                                </small>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="profile">
+                            <h4 class="titu-ine">Uso del aplicativo</h4>
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/JWnnadpvEkA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <p>
+                                <br>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla nec augue et imperdiet. Vivamus ac mi ut arcu
+                                fermentum efficitur pharetra in est. Sed sit amet ultrices urna, vitae ultrices lorem.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>')
                 )
               )
           ),
@@ -64,7 +79,6 @@ Esta aplicación permite acercar a las personas usuarias la implementación del 
 
           shiny::div(class="dash-ine",
               shiny::fluidPage(
-                waiter::useWaitress("white"),
                 shiny::div(class="container",
                     sidebarLayout(
                       ## Sidebar ####
@@ -72,12 +86,12 @@ Esta aplicación permite acercar a las personas usuarias la implementación del 
                                    ## UI INPUT ####
                                    shinyWidgets::radioGroupButtons(
                                      inputId = "Id004",
-                                     label = h4("Selecciona desde donde cargar base de datos"),
-                                     choices = c("Cargar datos propios", "Trabajar con datos INE"),
+                                     label = HTML("<h4>Definir base de datos de análisis</h4> <h5> En esta sección puedes escoger la opción de cargar una base de datos desde tu computador, o cargar una base de datos del INE</h5> "),
+                                     choices = c("Bases INE","Base externa"),
                                      status = "primary",
                                      justified = TRUE
                                    ),
-                                   h5("En esta sección puedes escoger la opción de cargar una base de datos desde tu computador, o cargar una base de datos del INE"),
+                                #   h5("En esta sección puedes escoger la opción de cargar una base de datos desde tu computador, o cargar una base de datos del INE"),
                                    uiOutput("datos_locales"),
                                    uiOutput("DescargaINE"),
                                    #### Edición datos
@@ -148,38 +162,42 @@ Esta aplicación permite acercar a las personas usuarias la implementación del 
               shiny::fluidPage(
                 shiny::div(class="container",
                     shiny::HTML('<div class="row">
-              <div class="row">
-    <div class="col-md-3 text-center">
-        <a href="https://www.cepal.org/es" target="_blank"><img class="cepal" src="logotipo-cepal-blanco.svg"></a>
-    </div>
-    <div class="col-md-3">
-        <h4>INE en redes sociales</h4>
-        <a href="https://www.facebook.com/ChileINE/" target="_blank"><img class="facebook" src="facebook.svg"></a>
-        <a href="https://twitter.com/ine_chile?lang=es" target="_blank"><img class="twitter" src="twitter.svg"></a>
-        <a href="https://www.youtube.com/user/inechile" target="_blank"><img class="youtube" src="youtube.svg"></a>
-        <a href="https://www.instagram.com/chile.ine/" target="_blank"><img class="instagram" src="instagram.svg"></a>
-        <h4>Consultas</h4>
-        <p><a href="https://www.portaltransparencia.cl/PortalPdT/ingreso-sai-v2?idOrg=1003" target="_blank">Solicitud de acceso a la información pública</a></p>
-        <p><a href="https://atencionciudadana.ine.cl/" target="_blank">Atención ciudadana</a></p>
-    </div>
-    <div class="col-md-3">
-        <h4>Contacto</h4>
-        <p>
-            Dirección nacional: Morandé N°801, piso 22, Santiago, Chile<br>
-            RUT: 60.703.000-6<br>
-            Código postal: 8340148<br>
-        </p>
-    </div>
-    <div class="col-md-3">
-        <h4>SIAC / OIRS</h4>
-        <p>
-            Horario de atención:<br>
-            Lunes a viernes 9:00 a 17:00 horas<br>
-            Fono : <a>232461010</a> - <a>232461018</a><br>
-            Correo: ine@ine.cl<br>
-        </p>
-    </div>
-</div>
+                <div class="col-md-2">
+                    <a href="https://www.ine.cl" target="_blank" title="Ir al Instituto Nacional de Estadísticas">
+                        <img width="80%" style="padding:0 1rem;" class="cepal" src="logo_ine.svg">
+                    </a>
+                </div>
+                <div class="col-md-2">
+                    <a href="https://www.cepal.org/es" target="_blank" title="Ir a cepal">
+                        <img width="79%" style="padding:0 2.7rem;" class="cepal" src="logotipo-cepal-blanco.svg">
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <h4>INE en redes sociales</h4>
+                    <a href="https://www.facebook.com/ChileINE/" target="_blank"><img class="facebook" src="facebook.svg"></a>
+                    <a href="https://twitter.com/ine_chile?lang=es" target="_blank"><img class="twitter" src="twitter.svg"></a>
+                    <a href="https://www.youtube.com/user/inechile" target="_blank"><img class="youtube" src="youtube.svg"></a>
+                    <a href="https://www.instagram.com/chile.ine/" target="_blank"><img class="instagram" src="instagram.svg"></a>
+                    <br><br><br>
+                    <h4>Consultas</h4>
+                    <p><a href="https://www.portaltransparencia.cl/PortalPdT/ingreso-sai-v2?idOrg=1003" target="_blank">Solicitud de acceso a la información pública</a></p>
+                    <p><a href="https://atencionciudadana.ine.cl/" target="_blank">Atención ciudadana</a></p>
+                </div>
+                <div class="col-md-5">
+                    <h4>Contacto</h4>
+                    <p>
+                        Dirección nacional: Morandé N°801, piso 22, Santiago, Chile<br>
+                        RUT: 60.703.000-6<br>
+                        Código postal: 8340148<br>
+                    </p>
+                    <h4>SIAC / OIRS</h4>
+                    <p>
+                        Horario de atención:<br>
+                        Lunes a viernes 9:00 a 17:00 horas<br>
+                        Fono : <a>232461010</a> - <a>232461018</a><br>
+                        Correo: ine@ine.cl<br>
+                    </p>
+                </div>
             </div>')
                 )
               )
@@ -197,4 +215,3 @@ Esta aplicación permite acercar a las personas usuarias la implementación del 
     )
 )
 
-checkShinyOutput()

@@ -106,14 +106,14 @@ shinyServer(function(input, output, session) {
 
 
   output$datos_locales <- renderUI({
-    req(input$Id004 == "Cargar datos propios")
+    req(input$Id004 == "Base externa")
 
-    renderUI_origen_datos("Cargar datos propios")})
+    renderUI_origen_datos("Base externa")})
 
   output$DescargaINE <-  renderUI({
-    req(input$Id004 == "Trabajar con datos INE")
+    req(input$Id004 == "Bases INE")
 
-    renderUI_origen_datos("Trabajar con datos INE")})
+    renderUI_origen_datos("Bases INE")})
 
   ### + I N P U T S + ####
 
@@ -460,9 +460,6 @@ observeEvent(input$actionTAB,{
   # choices = list("Media","Proporción","Suma variable Continua","Conteo casos", "Mediana")
 
   #### warning alert var interes ####
-
-  print(input$varINTERES != "" && input$tipoCALCULO %in% c("Media","Suma variable Continua"))
-
 
   wrn_var_int <- reactive({
 
