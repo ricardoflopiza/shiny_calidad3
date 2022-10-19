@@ -139,7 +139,6 @@ shinyUI(shiny::div(shinyFeedback::useShinyFeedback(),
                                                   options = list(placeholder = "Seleccione la variable")),
                               selectizeInput("varESTRATOS",label = h5("Variable para estratos"), choices = "", selected = "", multiple = F,
                                              options = list(placeholder = "Seleccione la variable")),
-                                   shinyjs::disabled(downloadButton("tabla", label = "Descargar tabulado")),
                                    actionButton("actionTAB", label = "Generar tabulado"),
                                    ## render selección variables DC
                                    uiOutput("seleccion2"),

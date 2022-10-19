@@ -5,21 +5,17 @@
 
 # pendiente
 # El error en la carga shiny proxy muestra una O de mas.
-# cambiar nombres de presentación a base de datos - OK
-# toolkit definiendo info de esquemas - ok
-# placeholder = "Seleccione variable" - ok
-# boton refrescar aparezca con los tabulados arriba a la derecha
-# modal con advertencia que es un aplicativo compejo y agregar video
-# Ademas agregar botyon con video
-# definir y mencionar cuanto es el máximo de un archivo
+# validar la entrada de código malicioso. Andrew va a conversar con seguridad de la información para explorar esta árista
+# revisar descarga que está saliendo en html
+# modal de reset ponerle amor
+# boton generar tabulado, cambiar nombre a ver resultado. (a mi me gusta generar tabulado, pero si aceptamos cambiarlo, no tengo reparos)
+# falta el punto del orden de generar tabulado y descargar tabulado
 
-
-
-# enviar ejemplo de tutorial
-# correo con chekclist con los puntos solucionados en el aplicativo
-# subir a shiny.io
+# Generar manual básico de preguntas y respuestas para Tamara de Atención Ciudadana.
 # definir Base de datos a subir
 # base ESI debemos
+
+
 
 library(calidad)
 library(dplyr)
@@ -294,7 +290,6 @@ shinyServer(function(input, output, session) {
                                ajuste_ene = FALSE)
   })
 
-  #tabuladoOK <- isolate({tabulado0})
 
 
   ### RENDER: Tabulado ####
@@ -424,20 +419,21 @@ observeEvent(input$actionTAB,{
   # DESCARGA: DE TABULADO GENERADO ----
 
   # Habilitar botón de descarga
-  observeEvent(tabuladoOK(),{
-    req(!warning_resum(), input$varINTERES)
-    req(input$actionTAB, tabuladoOK())
+  # observeEvent(tabuladoOK(),{
+  #   req(!warning_resum(), input$varINTERES)
+  #   req(input$actionTAB, tabuladoOK())
+  #
+  #   enable("tabla")
+  # })
 
-    enable("tabla")
-  })
-
+# tabulado_dw <- isolate({tabuladoOK()})
 
   output$tabla <- downloadHandler(
     filename = function() {
-      paste("data-", Sys.Date(), ".xlsx", sep="")
+      paste0("tabulado-", format(Sys.time(),"%Y-%m-%d-%H%M%S"), ".xlsx", sep="")
     },
     content = function(file) {
-      write_xlsx(tabuladoOK(), file)
+      writexl::write_xlsx(tabuladoOK(), file)
     }
   )
 
@@ -460,82 +456,41 @@ observeEvent(input$actionTAB,{
   # choices = list("Media","Proporción","Suma variable Continua","Conteo casos", "Mediana")
 
   #### warning alert var interes ####
-
   wrn_var_int <- reactive({
 
-   # req(show_wrn == T)
+    if(show_wrn == F){
 
-    var <- input$varINTERES
+      even = FALSE
 
-    print(input$varINTERES != "" && input$tipoCALCULO %in% c("Media","Suma variable Continua"))
+    }else{
 
-    #   even <- FALSE
-    if(input$varINTERES != input$varINTERES && input$tipoCALCULO %in% c("Media","Suma variable Continua")){
-    ### checkeamos que la variable sea continua
-      es_prop <- datos() %>%
-        dplyr::mutate(es_prop_var = dplyr::if_else(!!rlang::parse_expr(var) == 1 | !!rlang::parse_expr(var) == 0 | is.na(!!rlang::parse_expr(var)),1,0))
+      var <- input$varINTERES
+      even <- FALSE
 
-      even <- sum(es_prop$es_prop_var) == nrow(es_prop)
+      if(var != "") {
 
-      print(even)
+        if(input$tipoCALCULO %in% c("Media","Suma variable Continua")) {
+          es_prop <- datos() %>%
+            dplyr::mutate(es_prop_var = dplyr::if_else(!!rlang::parse_expr(var) == 1 | !!rlang::parse_expr(var) == 0 | is.na(!!rlang::parse_expr(var)),1,0))
 
-      shinyFeedback::feedbackWarning("varINTERES", even, "¡La variable no es continua!")
-}
-     # even
+          even <- sum(es_prop$es_prop_var) == nrow(es_prop)
+          shinyFeedback::feedbackWarning("varINTERES", even, "¡La variable no es continua!")
 
-    })
+          even
 
+        }else if(input$tipoCALCULO %in% c("Proporción","Conteo casos")){
 
-  # wrn_var_int <- eventReactive(input$varINTERES,{
-  #
-  #   req(show_wrn == F)
-  #
-  #     var <- input$varINTERES
-  #     even <- FALSE
-  #
-  #       if(input$tipoCALCULO %in% c("Media","Suma variable Continua")) {
-  #         es_prop <- datos() %>%
-  #           dplyr::mutate(es_prop_var = dplyr::if_else(!!rlang::parse_expr(var) == 1 | !!rlang::parse_expr(var) == 0 | is.na(!!rlang::parse_expr(var)),1,0))
-  #
-  #         even <- sum(es_prop$es_prop_var) == nrow(es_prop)
-  #         shinyFeedback::feedbackWarning("varINTERES", even, "¡La variable no es continua!")
-  #
-  #         even
-  #
-  #       }else if(input$tipoCALCULO %in% c("Proporción","Conteo casos")){
-  #
-  #         es_prop <- datos() %>%
-  #           dplyr::mutate(es_prop_var = dplyr::if_else(!!rlang::parse_expr(var) == 1 | !!rlang::parse_expr(var) == 0 | is.na(!!rlang::parse_expr(var)),1,0))
-  #
-  #         even <- sum(es_prop$es_prop_var) != nrow(es_prop)
-  #         shinyFeedback::feedbackWarning("varINTERES", even, "¡La variable no es de proporcion!")
-  #
-  #         even
-  #
-  #       }else{even}
-  #
-  # })
+          es_prop <- datos() %>%
+            dplyr::mutate(es_prop_var = dplyr::if_else(!!rlang::parse_expr(var) == 1 | !!rlang::parse_expr(var) == 0 | is.na(!!rlang::parse_expr(var)),1,0))
 
-  #### warning alert var cruce ####
-  # wrn_var_cruce <- reactive({
-  #
-  #   if(show_wrn == F){
-  #
-  #     even = FALSE
-  #
-  #   }else{
-  #
-  #     var <- input$varCRUCE
-  #     even <- FALSE
-  #
-  #     if(var != "") {
-  #
-  #         even <- is_categoric(datos(),var) > 20
-  #         shinyFeedback::feedbackWarning("varCRUCE", even, "¡La variable tiene mas de 20 categorías!")
-  #
-  #     }else{even}
-  #   }
-  # })
+          even <- sum(es_prop$es_prop_var) != nrow(es_prop)
+          shinyFeedback::feedbackWarning("varINTERES", even, "¡La variable no es de proporcion!")
+
+          even
+        }
+      }else{even}
+    }
+  })
 
   ### warning alert var denom ####
 

@@ -1,0 +1,299 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="image/favicon-16x16.png">
+<title>HTML Shiny</title>
+
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+<!----------------------------------------------
+CSS - Plantilla Shiny
+----------------------------------------------->
+<link rel="stylesheet" href="css/maqueta.css">
+
+</head>
+<body>
+
+<!----------------------------------------------------------------------------
+HEADER
+----------------------------------------------------------------------------->
+<div class="top-ine">
+    <div class="container-fluid">
+        <div class="container">
+            <div class="menu-ine">
+                <a href="https://www.ine.cl" target="_blank" title="Ir al Instituto Nacional de Estadísticas">
+                    <img class="logo-ine" src="image/ine_blanco.svg" alt="INE">
+                </a>
+            </div>
+            <div class="pull-right">
+                <h3 class="ti-top-ine">Evaluación de Calidad de Estimaciones en Encuestas de Hogares</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<!----------------------------------------------------------------------------
+FIN HEADER
+----------------------------------------------------------------------------->
+
+<!----------------------------------------------------------------------------
+CONTENIDO
+----------------------------------------------------------------------------->
+<div class="conten-ine">
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row info-aplicativo">
+                <div class="col-md-3">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#01" aria-controls="01" role="tab" data-toggle="tab">¿Qué es y a quién aplica?</a></li>
+                        <li role="presentation"><a href="#02" aria-controls="profile" role="02" data-toggle="tab">Uso del Aplicativo</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-9">
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="01">
+                            <h4 class="titu-ine">¿Qué es y a quién aplica?</h4>
+                            <p>
+                                Esta aplicación permite acercar a las personas usuarias la implementación del estándar de calidad para la evaluación 
+                                de estimaciones en encuestas de hogares del INE. A través de ella, las personas usuarias pueden conocer la precisión 
+                                que tienen las estimaciones generadas a partir de encuestas producidas por el INE u otras encuestas que utilicen 
+                                muestreo probabilístico estratificado y en 2 etapas. Con esto se busca poner a disposición de la comunidad una 
+                                herramienta interactiva para la cual no se requiere contar con conocimientos de programación, promoviendo el uso 
+                                adecuado de la información publicada. Esta aplicación permite evaluar la calidad de la estimación de medias, totales 
+                                y proporciones.<br><br>
+                            </p>
+                            <div class="alert alert-info" style="margin:0;" role="alert">
+                                <small>
+                                <img width="50" class="info" src="image/icon-info.svg" alt="icono-información">
+                                Para un uso adecuado de esta herramienta se recomienda que la persona usuaria conozca las bases de datos que está 
+                                utilizando y sus libros de código, así como también se espera un conocimiento mínimo sobre diseños estadísticos complejos.
+                                </small>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="02">
+                            <h4 class="titu-ine">Uso del Aplicativo</h4>
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/JWnnadpvEkA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <p>
+                                <br>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla nec augue et imperdiet. Vivamus ac mi ut arcu 
+                                fermentum efficitur pharetra in est. Sed sit amet ultrices urna, vitae ultrices lorem.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!----------------------------------------------------------------------------
+FIN CONTENIDO
+----------------------------------------------------------------------------->
+
+<!----------------------------------------------------------------------------
+CONSULTA Y RESULTADO
+----------------------------------------------------------------------------->
+<div class="dash-ine">
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 bg-gris">
+                    <h4>Definir la base de datos para analizar</h4>
+                    <p>
+                        Usted puede escoger entre una base de datos INE para utilizar o 
+                        cargar una base de datos desde su computador.
+                    </p>
+                    <ul class="nav nav-tabs nav-fill">
+                        <li role="presentation" class="active"><a href="#a" aria-controls="a" role="tab" data-toggle="tab">Bases INE</a></li>
+                        <li role="presentation"><a href="#b" aria-controls="profile" role="b" data-toggle="tab">Base externa</a></li>
+                    </ul>
+                    <div class="tab-content p1-fil">
+                        <div role="tabpanel" class="tab-pane active" id="a">
+                            <select class="form-app form-control">
+                                <option>Seleccione base INE</option>
+                                <option>ENUSC 2020</option>
+                                <option>ENUSC 2019</option>
+                                <option>ENUSC 2018</option>
+                                <option>ESI 2020</option>
+                                <option>EPF Personas</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary btn-block btn-base">Cargar base INE</button>
+                            <hr>
+                            <h4>A continuación seleccione variables para an&aacute;lisis</h4>
+                            <h5>Define esquema de evaluación<a title="Usted puede escoger entre una base de datos INE para utilizar o cargar una base de datos desde su computador." class="badge pull-right">i</a></h5>
+                            <select class="form-app form-control">
+                              <option>Seleccione</option>
+                              <option>Chile</option>
+                              <option>Cepal</option>
+                            </select>
+                            <h5>¿Qué tipo de cálculo deseas realizar?<a title="Usted puede escoger entre una base de datos INE para utilizar o cargar una base de datos desde su computador." class="badge pull-right">i</a></h5>
+                            <select class="form-app form-control">
+                                <option>Seleccione</option>
+                            </select>
+                            <h5>Variable Desagregación<a title="Usted puede escoger entre una base de datos INE para utilizar o cargar una base de datos desde su computador." class="badge pull-right">i</a></h5>
+                            <select class="form-app form-control">
+                                <option>Seleccione</option>
+                            </select>
+                            <h5>Variable Subpoblación<a title="Usted puede escoger entre una base de datos INE para utilizar o cargar una base de datos desde su computador." class="badge pull-right">i</a></h5>
+                            <select class="form-app form-control">
+                                <option>Seleccione</option>
+                            </select>
+                            <h5>Variable para factor de expansión<a title="Usted puede escoger entre una base de datos INE para utilizar o cargar una base de datos desde su computador." class="badge pull-right">i</a></h5>
+                            <select class="form-app form-control">
+                                <option>Seleccione</option>
+                            </select>
+                            <h5>Variable para conglomerados<a title="Usted puede escoger entre una base de datos INE para utilizar o cargar una base de datos desde su computador." class="badge pull-right">i</a></h5>
+                            <select class="form-app form-control">
+                                <option>Seleccione</option>
+                            </select>
+                            <h5>Variable para estratos<a title="Usted puede escoger entre una base de datos INE para utilizar o cargar una base de datos desde su computador." class="badge pull-right">i</a></h5>
+                            <select class="form-app form-control">
+                                <option>Seleccione</option>
+                            </select>
+                            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                              <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-info">Descargar</button>
+                              </div>
+                              <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-primary">Ver resultado</button>
+                              </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="b">
+                            <div class="alert alert-info" style="padding:0 15px;" role="alert">
+                                <ul>
+                                    <li><small>El peso máximo aceptado es <strong>400 mb.</strong></small></li>
+                                    <li><small>Formatos: <strong>.sav, .rds, .dta, .sas, .xlsx, .csv, .feather</strong></small></li>
+                                    <li><small>Los archivos <strong>.csv</strong> deben estar separados por comas.</small></li>
+                                </ul>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-addon btn btn-primary">Cargar</div>
+                                <input type="text" class="form-control" id="exampleInputAmount" placeholder="Seleccione base de datos">
+                            </div>
+                            <hr>
+                            <h4>A continuación seleccione variables para an&aacute;lisis</h4>
+                            <h5>Define esquema de evaluación<a title="Usted puede escoger entre una base de datos INE para utilizar o cargar una base de datos desde su computador." class="badge pull-right">i</a></h5>
+                            <select class="form-app form-control">
+                              <option>Seleccione</option>
+                              <option>Chile</option>
+                              <option>Cepal</option>
+                            </select>
+                            <h5>¿Qué tipo de cálculo deseas realizar?<a title="Usted puede escoger entre una base de datos INE para utilizar o cargar una base de datos desde su computador." class="badge pull-right">i</a></h5>
+                            <select class="form-app form-control">
+                                <option>Seleccione</option>
+                            </select>
+                            <h5>Variable Desagregación<a title="Usted puede escoger entre una base de datos INE para utilizar o cargar una base de datos desde su computador." class="badge pull-right">i</a></h5>
+                            <select class="form-app form-control">
+                                <option>Seleccione</option>
+                            </select>
+                            <h5>Variable Subpoblación<a title="Usted puede escoger entre una base de datos INE para utilizar o cargar una base de datos desde su computador." class="badge pull-right">i</a></h5>
+                            <select class="form-app form-control">
+                                <option>Seleccione</option>
+                            </select>
+                            <h5>Variable para factor de expansión<a title="Usted puede escoger entre una base de datos INE para utilizar o cargar una base de datos desde su computador." class="badge pull-right">i</a></h5>
+                            <select class="form-app form-control">
+                                <option>Seleccione</option>
+                            </select>
+                            <h5>Variable para conglomerados<a title="Usted puede escoger entre una base de datos INE para utilizar o cargar una base de datos desde su computador." class="badge pull-right">i</a></h5>
+                            <select class="form-app form-control">
+                                <option>Seleccione</option>
+                            </select>
+                            <h5>Variable para estratos<a title="Usted puede escoger entre una base de datos INE para utilizar o cargar una base de datos desde su computador." class="badge pull-right">i</a></h5>
+                            <select class="form-app form-control">
+                                <option>Seleccione</option>
+                            </select>
+                            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                              <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-info">Descargar</button>
+                              </div>
+                              <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-primary">Ver resultado</button>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+<!----------------------------------------------------------------------------
+FIN CONSULTA Y RESULTADO
+----------------------------------------------------------------------------->
+
+
+<!----------------------------------------------------------------------------
+FOOTER
+----------------------------------------------------------------------------->
+<div class="footer">
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    <a href="https://www.ine.cl" target="_blank" title="Ir al Instituto Nacional de Estadísticas">
+                        <img width="80%" style="padding:0 2rem 0 0;" class="cepal" src="image/logo_ine.svg">
+                    </a>
+                </div>
+                <div class="col-md-2">
+                    <a href="https://www.cepal.org/es" target="_blank" title="Ir a cepal">
+                        <img width="79%" style="padding:0 2.7rem;" class="cepal" src="image/logotipo-cepal-blanco.svg">
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <h4>INE en redes sociales</h4>
+                    <a href="https://www.facebook.com/ChileINE/" target="_blank"><img class="facebook" src="image/facebook.svg"></a>
+                    <a href="https://twitter.com/ine_chile?lang=es" target="_blank"><img class="twitter" src="image/twitter.svg"></a>
+                    <a href="https://www.youtube.com/user/inechile" target="_blank"><img class="youtube" src="image/youtube.svg"></a>
+                    <a href="https://www.instagram.com/chile.ine/" target="_blank"><img class="instagram" src="image/instagram.svg"></a>
+                    <br><br><br>
+                    <h4>Consultas</h4>
+                    <p><a href="https://www.portaltransparencia.cl/PortalPdT/ingreso-sai-v2?idOrg=1003" target="_blank">Solicitud de acceso a la información pública</a></p>
+                    <p><a href="https://atencionciudadana.ine.cl/" target="_blank">Atención ciudadana</a></p>
+                </div>
+                <div class="col-md-5">
+                    <h4>Contacto</h4>
+                    <p>
+                        Dirección nacional: Morandé N°801, piso 22, Santiago, Chile<br>
+                        RUT: 60.703.000-6<br>
+                        Código postal: 8340148<br>
+                    </p>
+                    <h4>SIAC / OIRS</h4>
+                    <p>
+                        Horario de atención:<br>
+                        Lunes a viernes 9:00 a 17:00 horas<br>
+                        Fono : <a>232461010</a> - <a>232461018</a><br>
+                        Correo: ine@ine.cl<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pie-ine">
+    <div class="container-fluid">
+        <div class="container">
+            <div class="text-right">
+                Instituto Nacional de Estadísticas
+            </div>
+        </div>
+    </div>
+</div>
+<!----------------------------------------------------------------------------
+FIN FOOTER
+----------------------------------------------------------------------------->
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+</body>
+</html>
