@@ -39,10 +39,10 @@ shinyUI(shiny::div(shinyFeedback::useShinyFeedback(),
                 <div class="col-md-9">
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="home">
-                            <h4 class="titu-ine">¿Qué es y a quién aplica?</h4>
+                            <h4 class="titu-ine">¿Qué es y para quién está pensado?</h4>
                             <p>
                                 Esta aplicación permite acercar a las personas usuarias la implementación del estándar de calidad para la evaluación
-                                de estimaciones en encuestas de hogares del INE. A través de ella, las personas usuarias pueden conocer la precisión
+                                de estimaciones en encuestas de hogares del INE y CEPAL. A través de ella, las personas usuarias pueden conocer la precisión
                                 que tienen las estimaciones generadas a partir de encuestas producidas por el INE u otras encuestas que utilicen
                                 muestreo probabilístico estratificado y en 2 etapas. Con esto se busca poner a disposición de la comunidad una
                                 herramienta interactiva para la cual no se requiere contar con conocimientos de programación, promoviendo el uso
@@ -86,7 +86,7 @@ shinyUI(shiny::div(shinyFeedback::useShinyFeedback(),
                                    ## UI INPUT ####
                                    shinyWidgets::radioGroupButtons(
                                      inputId = "Id004",
-                                     label = HTML("<h4>Definir base de datos de análisis</h4> <h5> En esta sección puedes escoger la opción de cargar una base de datos desde tu computador, o cargar una base de datos del INE</h5> "),
+                                     label = HTML("<h4>Definir base de datos de análisis</h4> <h5> En esta sección puedes escoger la opción de cargar una base de datos del INE, o cargar una base desde tu computador</h5> "),
                                      choices = c("Bases INE","Base externa"),
                                      status = "primary",
                                      justified = TRUE
@@ -96,25 +96,51 @@ shinyUI(shiny::div(shinyFeedback::useShinyFeedback(),
                                    uiOutput("DescargaINE"),
                                    #### Edición datos
                                    #checkboxInput("data_edit", "¿Desea editar sus datos?",value = F),
-                                  div(
-                                  div(style="width:80%; display:inline-block; vertical-align: middle;",
-                                      shinyWidgets::radioGroupButtons(
-                                     inputId = "SCHEME",
-                                     label = h5("Selecciona el esquema de evaluación, INE o CEPAL"),
-                                     choices = c("chile", "cepal"),
-                                     status = "primary",
-                                     justified = TRUE
-                                   )),
-                                  div(style = "display:inline-block; vertical-align: bottom;",
-                                 shinyBS::bsButton("info_estandar", "", icon = icon("question"), size = "extra-small"),
-                                 shinyBS::bsPopover(id = "info_estandar",title= NULL,
-                                            content = "¿Qué es un estándar de calidad?",
-                                            placement = "right",
-                                            trigger = "hover",
-                                            options = list(container = "body")
-                                  )
-                                )
-                              ),
+                                # shinyWidgets::radioGroupButtons(
+                                #        inputId = "SCHEME",
+                                #        label = shiny::HTML('<h5>Selecciona el esquema de evaluación <a title="info" class="badge pull-right">i</a></h5>'),
+                                #        choices = c("chile", "cepal"),
+                                #        status = "primary",
+                                #        justified = TRUE
+                                #      ),
+                                shiny::HTML('<div class="form-group shiny-input-container shiny-input-radiogroup shiny-input-container-inline">
+  <label id="SCHEME-label" class="control-label" for="SCHEME"><h5>Selecciona el esquema de evaluación <a id="info_estandar" type="button" class="btn btn-default action-button btn-xs badge pull-right">i</a></h5></label>
+  <div id="SCHEME" class="radio-group-buttons" style="width: 100%;">
+    <div aria-labelledby="SCHEME-label" class="btn-group btn-group-justified d-flex btn-group-container-sw" data-toggle="buttons" role="group">
+      <div class="btn-group btn-group-toggle w-100" role="group">
+        <button class="btn radiobtn btn-primary active">
+          <input type="radio" autocomplete="off" name="SCHEME" value="chile" checked="checked"/>
+          chile
+        </button>
+      </div>
+      <div class="btn-group btn-group-toggle w-100" role="group">
+        <button class="btn radiobtn btn-primary">
+          <input type="radio" autocomplete="off" name="SCHEME" value="cepal"/>
+          cepal
+        </button>
+      </div>
+    </div>
+  </div>
+</div>'),
+                              #     div(
+                              #     div(style="width:80%; display:inline-block; vertical-align: middle;",
+                              #         shinyWidgets::radioGroupButtons(
+                              #        inputId = "SCHEME",
+                              #        label = h5("Selecciona el esquema de evaluación, INE o CEPAL"),
+                              #        choices = c("chile", "cepal"),
+                              #        status = "primary",
+                              #        justified = TRUE
+                              #      )),
+                              #     div(style = "display:inline-block; vertical-align: bottom;",
+                              #    shinyBS::bsButton("info_estandar", "", icon = icon("question"), size = "extra-small"),
+                              #    shinyBS::bsPopover(id = "info_estandar",title= NULL,
+                              #               content = "¿Qué es un estándar de calidad?",
+                              #               placement = "right",
+                              #               trigger = "hover",
+                              #               options = list(container = "body")
+                              #     )
+                              #   )
+                              # ),
                                    ## render selección de variables de interes, y de cruce
                                    # uiOutput("seleccion1"),
                                    #selectInput("varINTERES", label = h5("Variable de interés"),choices = "",  multiple = F),

@@ -6,16 +6,11 @@
 # pendiente
 # El error en la carga shiny proxy muestra una O de mas.
 # validar la entrada de código malicioso. Andrew va a conversar con seguridad de la información para explorar esta árista
-# revisar descarga que está saliendo en html
-# modal de reset ponerle amor
-# boton generar tabulado, cambiar nombre a ver resultado. (a mi me gusta generar tabulado, pero si aceptamos cambiarlo, no tengo reparos)
 # falta el punto del orden de generar tabulado y descargar tabulado
 
 # Generar manual básico de preguntas y respuestas para Tamara de Atención Ciudadana.
 # definir Base de datos a subir
 # base ESI debemos
-
-
 
 library(calidad)
 library(dplyr)
@@ -81,6 +76,7 @@ source("utils.R")
 # estratos = c("VarStrat", "estrato", "varstrat","varstrat", "estrato",  "varstrat","VARSTRAT", "ESTRATO",  "VARSTRAT","VarStrat")
 
 ### DEBUG ####
+auto_load = F
 debug = F
 show_wrn = T
 
@@ -129,10 +125,17 @@ shinyServer(function(input, output, session) {
 
 ### función carga de datos locales por usuario
   data_input <- reactive({
+
+   # carga_datos_locales("calidad/data/shiny/enusc_2018.feather")
     req(any(grepl(paste(soportados,collapse = "|"), input$file$datapath)))
     carga_datos_locales(input$file$datapath)
     })
 
+if(auto_load){
+
+  descarga <- reactive({feather::read_feather("data/shiny/enusc_2018.feather")})
+
+}else{
 
 # DESCARGA: DE DATOS PÁGINA INE ----
   descarga =  eventReactive(input$base_ine, {
@@ -147,6 +150,7 @@ shinyServer(function(input, output, session) {
 
     datos
   })
+}
 
   # SWITCH: DESCARGA DATOS WEB INE | COMPUTADOR LOCAL ----
 
@@ -164,7 +168,7 @@ shinyServer(function(input, output, session) {
 
   })
 
-  observeEvent(input$base_ine, {
+  observeEvent(descarga(), {
     datos(descarga())
   })
 
@@ -194,6 +198,8 @@ shinyServer(function(input, output, session) {
   observeEvent(list(datos(),
                     input$Id004,
                     input$base_web_ine),{
+
+
     updateSelectizeInput(session, "varINTERES",
                       choices = c("",variables_int())
           )
@@ -383,10 +389,15 @@ observeEvent(input$actionTAB,{
 
    observeEvent(input$confirm_reset,{
 
+     if(input$confirm_reset==TRUE){
     output$tituloTAB <- renderUI({
 
     })
+     }
+
     removeModal()
+
+    print(input$confirm_reset)
   })
 
 ### anulamos el render UI en caso de cambiar selección
@@ -455,42 +466,45 @@ observeEvent(input$actionTAB,{
   # "tipoCALCULO", "¿Qué tipo de cálculo deseas realizar?",
   # choices = list("Media","Proporción","Suma variable Continua","Conteo casos", "Mediana")
 
+
   #### warning alert var interes ####
-  wrn_var_int <- reactive({
 
-    if(show_wrn == F){
+ #### warning alert var interes ####
+ wrn_var_int <- reactive({
 
-      even = FALSE
+   if(show_wrn == F){
 
-    }else{
+     even = FALSE
 
-      var <- input$varINTERES
-      even <- FALSE
+   }else{
 
-      if(var != "") {
+     var <- input$varINTERES
+     even <- FALSE
 
-        if(input$tipoCALCULO %in% c("Media","Suma variable Continua")) {
-          es_prop <- datos() %>%
-            dplyr::mutate(es_prop_var = dplyr::if_else(!!rlang::parse_expr(var) == 1 | !!rlang::parse_expr(var) == 0 | is.na(!!rlang::parse_expr(var)),1,0))
+     if(var != "") {
 
-          even <- sum(es_prop$es_prop_var) == nrow(es_prop)
-          shinyFeedback::feedbackWarning("varINTERES", even, "¡La variable no es continua!")
+       if(input$tipoCALCULO %in% c("Media","Suma variable Continua")) {
+         es_prop <- datos() %>%
+           dplyr::mutate(es_prop_var = dplyr::if_else(!!rlang::parse_expr(var) == 1 | !!rlang::parse_expr(var) == 0 | is.na(!!rlang::parse_expr(var)),1,0))
 
-          even
+         even <- sum(es_prop$es_prop_var) == nrow(es_prop)
+         shinyFeedback::feedbackWarning("varINTERES", even, "¡La variable no es continua!")
 
-        }else if(input$tipoCALCULO %in% c("Proporción","Conteo casos")){
+         even
 
-          es_prop <- datos() %>%
-            dplyr::mutate(es_prop_var = dplyr::if_else(!!rlang::parse_expr(var) == 1 | !!rlang::parse_expr(var) == 0 | is.na(!!rlang::parse_expr(var)),1,0))
+       }else if(input$tipoCALCULO %in% c("Proporción","Conteo casos")){
 
-          even <- sum(es_prop$es_prop_var) != nrow(es_prop)
-          shinyFeedback::feedbackWarning("varINTERES", even, "¡La variable no es de proporcion!")
+         es_prop <- datos() %>%
+           dplyr::mutate(es_prop_var = dplyr::if_else(!!rlang::parse_expr(var) == 1 | !!rlang::parse_expr(var) == 0 | is.na(!!rlang::parse_expr(var)),1,0))
 
-          even
-        }
-      }else{even}
-    }
-  })
+         even <- sum(es_prop$es_prop_var) != nrow(es_prop)
+         shinyFeedback::feedbackWarning("varINTERES", even, "¡La variable no es de proporcion!")
+
+         even
+       }
+     }else{even}
+   }
+ })
 
   ### warning alert var denom ####
 

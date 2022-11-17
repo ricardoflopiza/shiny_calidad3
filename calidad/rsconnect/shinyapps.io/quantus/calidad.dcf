@@ -5,9 +5,10 @@ account: quantus
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 7070296
-bundleId: 6368047
+bundleId: 6498998
 url: https://quantus.shinyapps.io/calidad/
-when: 1664896017.6916
-lastSyncTime: 1664896017.69161
+when: 1668095084.97272
+lastSyncTime: 1668095084.97275
 asMultiple: FALSE
 asStatic: FALSE
+ignoredFiles: data/shiny/ENUSC 2019.rda|data/shiny/ENUSC 2020 - con etiquetas.rda|data/shiny/EPF Personas.rda|data/shiny/ESI 2020.rda|Dockerfile|viejo_codigo/create_plot_cepal.R|viejo_codigo/create_plot.R|viejo_codigo/create_tabulado.R|viejo_codigo/download_data.R

@@ -29,7 +29,7 @@ modal_indicadores <- function(){
 
     HTML("
 
-<h5><strong>stat:</strong> Estimación variable de interés</h5>
+<h5><strong>stat:</strong> estimación variable de interés</h5>
 
 <strong><h4>Insumos a evaluar:</h4></strong>
 
@@ -71,7 +71,7 @@ modal_indicadores <- function(){
 <h5><strong>eval_n:</strong> evaluación de casos muestrales <br>
 <strong>eval_ess:</strong> evaluación tamaño de muestra efectivo <br>
 <strong>eval_df:</strong> evaluación grados de libertad <br>
-<strong>eval_cv:</strong> evaluación del Coeficiente de variación. <br>
+<strong>eval_cv:</strong> evaluación del Coeficiente de variación <br>
 <strong>eval_unweighted: </strong> evaluación del conteo de casos no ponderado <br>
 <strong>eval_log_cv: </strong> evaluación del coeficiente de variación logarítmico <br>
 
@@ -109,15 +109,19 @@ modal_estandar <- function(){
 
 modal_reset <- function(){
 
-  showModal(
-    modalDialog(
-      title = "¡Atención!",
-      HTML("<h3><strong>¿Desea eliminar el tabulado actual?</strong></h3>"),
-      easyClose = FALSE, footer = tagList(actionButton(inputId = "cerrar_modal", "Cancelar"),
-      actionButton(inputId = "confirm_reset", "Confirmar")),
+  shinyalert::shinyalert(inputId = "confirm_reset",type = "warning",title =  HTML("<h3><strong>¿Desea eliminar el tabulado actual?</strong></h3>"),#,text = HTML("<h3><strong>¿Desea eliminar el tabulado actual?</strong></h3>"),
+                         html = T,showCancelButton = T,cancelButtonText = "Cancelar",
+                         confirmButtonText = "Continuar")
 
-    )
-  )
+  # showModal(
+  #   modalDialog(
+  #     title = "¡Atención!",
+  #     HTML("<h3><strong>¿Desea eliminar el tabulado actual?</strong></h3>"),
+  #     easyClose = FALSE, footer = tagList(actionButton(inputId = "cerrar_modal", "Cancelar"),
+  #     actionButton(inputId = "confirm_reset", "Confirmar")),
+  #
+  #   )
+  # )
 }
 
 

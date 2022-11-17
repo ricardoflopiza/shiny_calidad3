@@ -126,6 +126,34 @@ tabla_html_shiny <- function(tabla,input) {
   return(d)
 }
 
+### check if var is dummy or not ####
+need_warning <-function(tipo_calc,datos,var){
+
+  ## media. suma var continua, deben ser continuas
+  if(tipo_calc %in% c("Media","Suma variable Continua")) {
+
+    es_prop <- datos %>%
+      dplyr::mutate(es_prop_var = dplyr::if_else(!!rlang::parse_expr(var) == 1 | !!rlang::parse_expr(var) == 0 | is.na(!!rlang::parse_expr(var)),1,0))
+
+    even <- sum(es_prop$es_prop_var) == nrow(es_prop)
+
+    even
+
+    ## proporción y conteo de casos, deben ser dummy
+  }else if(tipo_calc %in% c("Proporción","Conteo casos")){
+
+    es_prop <- datos %>%
+      dplyr::mutate(es_prop_var = dplyr::if_else(!!rlang::parse_expr(var) == 1 | !!rlang::parse_expr(var) == 0 | is.na(!!rlang::parse_expr(var)),1,0))
+
+    even <- sum(es_prop$es_prop_var) != nrow(es_prop)
+
+    even
+  }
+
+
+}
+
+
 
 dumming_by_labels <- function(dc,var,domains = NULL ,exclud_lab = NULL){
 

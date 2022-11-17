@@ -129,6 +129,17 @@ border-bottom: 1px solid #d8d8d8;
 }
 }
 
+.badge {
+    background-color: #1f9fff;
+    font-family: monospace;
+    font-weight: 800;
+    padding: 2px 5px;
+}
+
+.form-group label {
+    display: block !important;
+}
+
 .dash-ine .container-fluid .container .row .col-sm-3 .well {
 border:0;
 margin-bottom:0;
@@ -219,7 +230,7 @@ CSS Resoluciones
         width: 184px !important;
         padding: 0 0 4rem !important;
     }
-}    
+}
 
 @media (min-width: 1200px) {
     .container {
